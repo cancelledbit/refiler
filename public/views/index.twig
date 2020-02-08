@@ -1,0 +1,10 @@
+{% extends 'layout.twig' %}
+{% block content %}
+<h1>Welcome to Refiler!</h1>
+    <a href="/upload">Upload file!</a>
+    <ul>
+        {% for file in files %}
+        <li> {{ file.name }} <a href="{{ file.href }}" > Скачать </a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

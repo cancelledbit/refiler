@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <h1>Welcome to Refiler!</h1>
+    <h2>Upload file here</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="upfile"><br>
+        <button type="submit">Upload!</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{
+  "name": "cancelledbit/refiler",
+  "description": "file hosting",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Nikita Vasilevsky",
+      "email": "nikita@vasilevskiy.pw"
+    }
+  ],
+  "require": {
+    "slim/slim": "4.*",
+    "slim/psr7": "^1.0",
+    "php-di/php-di": "^6.0",
+    "symfony/console": "^5.0",
+    "symfony/debug": "^4.4",
+    "twig/twig": "^3.0",
+    "doctrine/mongodb-odm": "^2.0",
+    "ext-mongodb": "*",
+    "knplabs/gaufrette": "^0.9.0",
+    "gaufrette/local-adapter": "^0.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Refiler\\": "src"
+    }
+  }
+}
