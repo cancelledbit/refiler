@@ -2,63 +2,37 @@
 namespace Refiler\Model;
 
 use MongoDB\BSON\ObjectId;
+use Psr\Container\ContainerInterface;
+use Refiler\ORM\BaseMapper;
 
 abstract class BaseModel
 {
-    protected \MongoDB\Collection $collection;
-    public array $properties = [];
+    protected ContainerInterface $container;
+    protected BaseMapper $mapper;
+
+    protected array $properties = [
+        '_id' => null,
+    ];
+
+    public function getMapper() {
+        return $this->mapper;
+    }
+
+    public function getPropertiesKeys() {
+        return array_keys($this->properties);
+    }
 
     public function __set(string $name, $value) {
         $this->properties[$name] = $value;
     }
 
     public function __get(string $name) {
-        $this->properties[$name];
+        return $this->properties[$name];
     }
 
     public function __construct(\Psr\Container\ContainerInterface $container) {
-        /** @var \MongoDB\Database $mongo */
-        $mongo = $container->get('Database');
-        $collectionName = $this->getCollectionNameFromClass(static::class);
-        $this->collection = $mongo->selectCollection($collectionName);
-    }
-
-    public function getCollecton() {
-        return $this->collection;
-    }
-
-    public function find(?string $id) {
-        $query = $this->getIdQuery($id);
-        return $this->getCollecton()->findOne($query);
-    }
-
-    public function findBy(array $query, ?array $order = null) {
-        if ($order !== null) {
-            $query['$orderBy'] = $order;
-        }
-        return $this->getCollecton()->find($query);
-    }
-
-    protected function getIdQuery(?string $id) {
-        $id = new ObjectId($id);
-        return [
-            '_id' => $id,
-        ];
-    }
-
-    public function save() {
-        $id = $this->properties['_id'];
-        if ($this->find($id) !== null) {
-            $query = $this->getIdQuery($id);
-            $this->getCollecton()->updateOne($query, $this->properties);
-        } else {
-            if (!$this->properties['_id'] instanceof ObjectId) {
-                unset($this->properties['_id']);
-            }
-            $result = $this->getCollecton()->insertOne($this->properties);
-            $this->properties['_id'] = $result->getInsertedId();
-        }
-        return $this;
+        $this->container = $container;
+        $this->setMapper();
     }
 
     public function generateId() {
@@ -74,8 +48,21 @@ abstract class BaseModel
         return (string) $this->getId();
     }
 
-    private function getCollectionNameFromClass(string $name) {
-        $name = explode('\\', $name);
-        return array_pop($name);
+    public function toArray() {
+        return $this->properties;
+    }
+
+    public function save() {
+        $this->getMapper()->save($this);
+    }
+
+    private function setMapper() {
+        $name = explode('\\', static::class);
+        $name = array_pop($name);
+        $namePositionEnd = strpos($name, 'Model');
+        $name = substr($name, 0, $namePositionEnd);
+        $reflection = new \ReflectionClass(BaseMapper::class);
+        $namespace = $reflection->getNamespaceName();
+        $this->mapper = $this->container->get($namespace.'\\'.$name.'Mapper');
     }
 }

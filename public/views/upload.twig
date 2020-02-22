@@ -1,9 +1,25 @@
 {% extends 'layout.twig' %}
 {% block content %}
-    <h1>Welcome to Refiler!</h1>
-    <h2>Upload file here</h2>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="upfile"><br>
-        <button type="submit">Upload!</button>
-    </form>
+    <div class="container">
+        <div class="s12"><h5>Upload file here</h5></div>
+        <div class="s12">
+            <form action="/upload" method="post" class="dropzone" id="dropzone" enctype="multipart/form-data">
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/src_dropzone.js"></script>
+    <script>
+        Dropzone.options.dropzone = {
+            maxFiles: 10,
+            maxFilesize: 128,
+            method: 'post',
+            addRemoveLinks: true,
+            acceptedFiles: "image/*,.pdf,.psd,.iso,.doc,.docx,.rar,.zip",
+            init: function () {
+                this.on('queuecomplete', function (files) {
+                    window.location.replace('/');
+                })
+            }
+        }
+    </script>
 {% endblock %}

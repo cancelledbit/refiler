@@ -1,13 +1,15 @@
 <?php
 namespace Refiler\Model;
+use Delight\Auth\Auth;
 use Psr\Http\Message\UploadedFileInterface;
 use Refiler\Model\BaseModel;
 
 class FileModel extends BaseModel
 {
-    public array $properties = [
+    protected array $properties = [
         '_id' => null,
         'name' => null,
+        'author' => null,
         'extension' => null,
         'size' => 0,
         'href' => null,
@@ -20,16 +22,5 @@ class FileModel extends BaseModel
     public function getFullName() {
         return $this->name.'.'.$this->extension;
     }
-    public function fillFromUploadedFile(UploadedFileInterface $file) {
-        $extraInfo = pathinfo($file->getClientFilename());
-        if (!array_key_exists('filename', $extraInfo)) {
-            throw new \Exception("File must have name!");
-        }
-        $this->_id = $this->getId();
-        $this->name = $extraInfo['basename'];
-        $this->extension = $extraInfo['extension'];
-        $this->size = $file->getSize();
-        $this->generateHref();
-        return $this;
-    }
+
 }

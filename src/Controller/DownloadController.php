@@ -4,6 +4,7 @@ namespace Refiler\Controller;
 use Gaufrette\Filesystem;
 use Refiler\Controller\BaseController;
 use Refiler\Model\FileModel;
+use Refiler\ORM\FileMapper;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
@@ -12,7 +13,7 @@ class DownloadController extends BaseController {
     public function actIndex(Request $request, Response $response) {
         $id = $request->getAttribute('file');
         $fs = $this->container->get('Filesystem');
-        $mongoFile = $this->container->get(FileModel::class);
+        $mongoFile = $this->container->get(FileMapper::class);
         $file = $mongoFile->find($id);
         if ($file === null) {
             return $response->withStatus(404);

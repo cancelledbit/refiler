@@ -1,12 +1,68 @@
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="css/src_basic.css"/>
+        <link type="text/css" rel="stylesheet" href="css/src_dropzone.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {% block title %}
             <title>{{ title }}</title>
         {% endblock %}
     </head>
-    <body>
-    {% block content %}
-    {% endblock %}
-        <div>Footer</div>
+    <body class="pink lighten-5">
+        <header>
+            <nav>
+                <div class="nav-wrapper deep-purple">
+                    <a href="/" class="brand-logo hoverable">Refiler</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        {% if not Auth.isLoggedIn() %}
+                            <li><a href="/login">Login</a></li>
+                        {% else  %}
+                            <li>
+                                <a class='dropdown-trigger' href='#' data-target='usermenu'>{{Auth.getEmail()}}</a>
+                                <!-- Dropdown Structure -->
+                                <ul id='usermenu' class='dropdown-content'>
+                                    <li><a href="/profile">Profile</a></li>
+                                    <li><a href="/logout">Log Out</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="col s3">
+            </div>
+
+            <div class="col s9">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+        <footer class="page-footer deep-purple">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        {% block footer %}
+                        {% endblock %}
+                        <div class="footer-copyright">
+                            <div class="container">
+                                By <a href="https://telegram.im/@cancelledbit" target="_blank">@cancelledbit</a>
+                                <a class="grey-text text-lighten-4 right" href="#!">Support</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script type="text/javascript" src="js/bin/materialize.js"></script>
     </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let elems = document.querySelectorAll('.dropdown-trigger');
+        let instances = M.Dropdown.init(elems, {});
+    });
+</script>

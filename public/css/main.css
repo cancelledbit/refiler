@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+nav .brand-logo {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#upload {
+    bottom: 100px;
+}
+main {
+    flex: 1 0 auto;
+}

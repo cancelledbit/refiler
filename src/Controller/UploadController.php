@@ -6,7 +6,7 @@ namespace Refiler\Controller;
 
 use Gaufrette\Filesystem;
 use Psr\Http\Message\UploadedFileInterface;
-use Refiler\Model\FileModel;
+use Refiler\Model\Factory\FileFactory;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -22,15 +22,15 @@ class UploadController extends BaseController
         $files = $request->getUploadedFiles();
         /** @var UploadedFileInterface $file */
         foreach ($files as $file) {
-            $uploadedFile = $this->container->get(FileModel::class);
-            $uploadedFile = $uploadedFile->fillFromUploadedFile($file);
-            $id = $uploadedFile->getIdStr();
+            $fileFactory = $this->container->get(FileFactory::class);
+            $newFile = $fileFactory->getModelFromUploadedFile($file);
+            $id = $newFile->getIdStr();
             /** @var Filesystem $fs */
             $fs = $this->container->get('Filesystem');
             $fs->write($id, $file->getStream()->getContents());
-            $uploadedFile->save();
+            $newFile->save();
         }
-        return $response->withStatus(301)->withHeader('location', '/');
+        return $response->withStatus(302)->withHeader('location', '/');
     }
 
 }

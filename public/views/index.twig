@@ -1,10 +1,32 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<h1>Welcome to Refiler!</h1>
-    <a href="/upload">Upload file!</a>
-    <ul>
-        {% for file in files %}
-        <li> {{ file.name }} <a href="{{ file.href }}" > Скачать </a></li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col s12"><h5>Welcome to Refiler!</h5></div>
+        </div>
+        <div class="fixed-action-btn" id="upload">
+            <a class="btn-floating btn-large red" href="/upload">
+                <i class="large material-icons">add</i>
+            </a>
+        </div>
+        <div class="row">
+            {% for file in files %}
+                <div class="col m3 s12">
+                    <div class="card small">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="img/extensions/unknown.png" class="responsive-img">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4">{{ file.name }}<i class="material-icons right">more_vert</i></span>
+                            <p><a href="{{ file.href }}">Download file</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">{{ file.name }}<i class="material-icons right">close</i></span>
+                            <p>File ID: {{ file._id }}, size: {{ file.size }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
