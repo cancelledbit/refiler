@@ -9,6 +9,7 @@ use Delight\Auth\Auth;
 use Delight\Auth\AuthError;
 use Delight\Auth\EmailNotVerifiedException;
 use Psr\Container\ContainerInterface;
+use Refiler\Controller\Contract\BaseController;
 use Refiler\Util\PropertyBag;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -16,13 +17,6 @@ use Twig\Environment;
 
 class AuthContoller extends BaseController
 {
-    protected Auth $auth;
-    public function __construct(Environment $renderer, ContainerInterface $container)
-    {
-        parent::__construct($renderer, $container);
-        $this->auth = $this->container->get(Auth::class);
-    }
-
     public function actLoginIndex(Request $request, Response $response) {
         if ($this->auth->isLoggedIn()){
             return $response->withStatus(302)->withHeader('location', '/');
@@ -69,11 +63,11 @@ class AuthContoller extends BaseController
     public function actRegister(Request $request, Response $response) {
         /** @var PropertyBag $body */
         $body = $request->getAttribute('bag');
-        //$body->get = $request->getAttribute('last_name');
+        $username = $body->getProperty('username');
         $email = $body->getProperty('email');
         $password = $body->getProperty('password');
         try {
-            $this->auth->register($email, $password);
+            $this->auth->register($email, $password, $username);
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
         } catch (\Delight\Auth\InvalidPasswordException $e) {
@@ -83,7 +77,7 @@ class AuthContoller extends BaseController
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             die('Too many requests');
         }
-        return $response->withStatus(302)->withHeader('location','/');
+        return $response->withStatus(302)->withHeader('location','/thankyou');
     }
 
     public function actLogOut(Request $request, Response $response) {
@@ -94,6 +88,12 @@ class AuthContoller extends BaseController
             die($e->getMessage());
         }
         return $response->withStatus(302)->withHeader('Location','/');
+    }
+
+    public function actFinish(Request $request, Response $response) {
+        $page = $this->renderer->render('thankyou.twig',['title' => 'Register']);
+        $response->getBody()->write($page);
+        return $response;
     }
 
 }

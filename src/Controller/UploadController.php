@@ -5,8 +5,10 @@ namespace Refiler\Controller;
 
 
 use Gaufrette\Filesystem;
+use Refiler\Controller\Contract\BaseController;
 use Psr\Http\Message\UploadedFileInterface;
 use Refiler\Model\Factory\FileFactory;
+use Refiler\ORM\FileMapper;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -22,15 +24,23 @@ class UploadController extends BaseController
         $files = $request->getUploadedFiles();
         /** @var UploadedFileInterface $file */
         foreach ($files as $file) {
-            $fileFactory = $this->container->get(FileFactory::class);
-            $newFile = $fileFactory->getModelFromUploadedFile($file);
+            /** @var FileMapper $fileMapper */
+            $fileMapper = $this->container->get(FileMapper::class);
+            try {
+                $newFile = $fileMapper->getFileModelFromUploadedFile($file);
+            } catch (\Exception $e) {
+                die ('You did not provide filename!');
+            }
             $id = $newFile->getIdStr();
-            /** @var Filesystem $fs */
-            $fs = $this->container->get('Filesystem');
-            $fs->write($id, $file->getStream()->getContents());
+            $this->filesystem->write($id, $file->getStream()->getContents());
             $newFile->save();
         }
-        return $response->withStatus(302)->withHeader('location', '/');
+        $json = json_encode(['id' => 'all']);
+        if(!$this->auth->isLoggedIn()) {
+            $json = json_encode(['id' => $id]);
+        }
+        $response->getBody()->write($json);
+        return $response;
     }
 
 }

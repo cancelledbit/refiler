@@ -10,15 +10,27 @@
     <script type="text/javascript" src="js/src_dropzone.js"></script>
     <script>
         Dropzone.options.dropzone = {
+            {% if not Auth.isLoggedIn %}
+            maxFiles: 1,
+            {% else %}
             maxFiles: 10,
+            {% endif %}
             maxFilesize: 128,
             method: 'post',
             addRemoveLinks: true,
             acceptedFiles: "image/*,.pdf,.psd,.iso,.doc,.docx,.rar,.zip",
             init: function () {
-                this.on('queuecomplete', function (files) {
-                    window.location.replace('/');
-                })
+                this.on('queuecomplete', function (file, response) {
+                    // window.location.replace('/');
+                });
+                this.on("success", function(file, responseText) {
+                    responseText = JSON.parse(responseText);
+                    if (responseText.id !== 'all') {
+                        window.location.replace('/show/'+responseText.id);
+                    } else {
+                        window.location.replace('/');
+                    }
+                });
             }
         }
     </script>

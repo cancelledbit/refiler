@@ -2,7 +2,17 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col s12"><h5>Welcome to Refiler!</h5></div>
+            <div class="col s12">
+                <h5>Welcome to Refiler!</h5>
+            </div>
+            {% if not Auth.isLoggedIn %}
+                <div class="col s12">
+                    <p class="flow-text">
+                        Refiler - a fast and easy way to share files secure and free!
+                        Sign up to achieve control on all your uploads or just upload and share file anonymously.
+                    </p>
+                </div>
+            {% endif %}
         </div>
         <div class="fixed-action-btn" id="upload">
             <a class="btn-floating btn-large red" href="/upload">
@@ -14,7 +24,7 @@
                 <div class="col m3 s12">
                     <div class="card small">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="img/extensions/unknown.png" class="responsive-img">
+                            <img class="activator" src="{{ Site }}img/extensions/unknown.png" class="responsive-img">
                         </div>
                         <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">{{ file.name }}<i class="material-icons right">more_vert</i></span>
@@ -23,6 +33,7 @@
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">{{ file.name }}<i class="material-icons right">close</i></span>
                             <p>File ID: {{ file._id }}, size: {{ file.size }}</p>
+                            <a href="/remove/{{ file._id }}">Remove file</a>
                         </div>
                     </div>
                 </div>

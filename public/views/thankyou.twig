@@ -1,0 +1,21 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h5>Thank you</h5>
+            </div>
+            {% if not Auth.isLoggedIn %}
+                <div class="col s12">
+                    <p class="flow-text">
+                        Thank you for your registration, you may now proceed to the <a href="/login">Login page</a>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="fixed-action-btn" id="upload">
+            <a class="btn-floating btn-large red" href="/upload">
+                <i class="large material-icons">add</i>
+            </a>
+        </div>
+{% endblock %}

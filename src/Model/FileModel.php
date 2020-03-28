@@ -1,8 +1,6 @@
 <?php
 namespace Refiler\Model;
-use Delight\Auth\Auth;
-use Psr\Http\Message\UploadedFileInterface;
-use Refiler\Model\BaseModel;
+use \Refiler\Model\Contract\BaseModel;
 
 class FileModel extends BaseModel
 {
@@ -19,6 +17,7 @@ class FileModel extends BaseModel
         $this->href = '/download/'.$this->getIdStr();
         return $this;
     }
+
     public function getFullName() {
         return $this->name.'.'.$this->extension;
     }

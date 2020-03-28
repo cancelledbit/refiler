@@ -2,7 +2,7 @@
 namespace Refiler\Controller;
 
 use Gaufrette\Filesystem;
-use Refiler\Controller\BaseController;
+use Refiler\Controller\Contract\BaseController;
 use Refiler\Model\FileModel;
 use Refiler\ORM\FileMapper;
 use Slim\Psr7\Request;
