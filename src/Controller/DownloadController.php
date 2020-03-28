@@ -12,7 +12,7 @@ use Slim\Psr7\Stream;
 class DownloadController extends BaseController {
     public function actIndex(Request $request, Response $response) {
         $id = $request->getAttribute('file');
-        $fs = $this->container->get('Filesystem');
+        $fs = $this->container->get(Filesystem::class);
         $mongoFile = $this->container->get(FileMapper::class);
         $file = $mongoFile->find($id);
         if ($file === null) {

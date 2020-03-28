@@ -1,6 +1,6 @@
 <?php
 return [
-    'sitename' => 'http://localhost/',
+    'sitename' => 'http://refiler.ru',
     'db.host' => 'localhost',
     'db.port' => '27017',
     'db.user' => 'root',

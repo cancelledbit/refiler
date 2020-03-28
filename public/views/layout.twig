@@ -1,11 +1,13 @@
 <html>
     <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ 'unsafe-inline';">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="{{ Site }}css/materialize.css"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="{{ Site }}css/main.css"/>
-        <link type="text/css" rel="stylesheet" href="{{ Site }}css/src_basic.css"/>
-        <link type="text/css" rel="stylesheet" href="{{ Site }}css/src_dropzone.css"/>
+        <link type="text/css" rel="stylesheet" href="{{ Site }}/css/materialize.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{{ Site }}/css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="{{ Site }}/css/src_basic.css"/>
+        <link type="text/css" rel="stylesheet" href="{{ Site }}/css/src_dropzone.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="{{ Site }}/js/clipboard.js"></script>
         {% block title %}
             <title>{{ title }}</title>
         {% endblock %}
@@ -15,7 +17,7 @@
             <nav>
                 <div class="nav-wrapper deep-purple">
                     <a href="/" class="brand-logo hoverable">Refiler</a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <ul id="nav-mobile" class="right">
                         {% if not Auth.isLoggedIn() %}
                             <li><a href="/login">Login</a></li>
                         {% else  %}
@@ -57,7 +59,8 @@
                 </div>
             </div>
         </footer>
-        <script type="text/javascript" src="{{ Site }}js/bin/materialize.js"></script>
+        <script type="text/javascript" src="{{ Site }}/js/bin/materialize.js"></script>
+        <script type="text/javascript" src="{{ Site }}/js/clipboard.js"></script>
     </body>
 </html>
 <script>

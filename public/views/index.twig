@@ -24,15 +24,18 @@
                 <div class="col m3 s12">
                     <div class="card small">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="{{ Site }}img/extensions/unknown.png" class="responsive-img">
+                            <img class="activator" src="{{ Site }}/img/extensions/unknown.png" class="responsive-img">
                         </div>
                         <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">{{ file.name }}<i class="material-icons right">more_vert</i></span>
-                            <p><a href="{{ file.href }}">Download file</a></p>
+                            <button class="btn purple lighten-3"><a href="{{ file.href }}">Download file</a></button>
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">{{ file.name }}<i class="material-icons right">close</i></span>
                             <p>File ID: {{ file._id }}, size: {{ file.size }}</p>
+                            <button class="btn copy" data-clipboard-text="{{ Site }}/show/{{ file._id }}">
+                                Copy link
+                            </button></br>
                             <a href="/remove/{{ file._id }}">Remove file</a>
                         </div>
                     </div>
@@ -40,4 +43,7 @@
             {% endfor %}
         </div>
     </div>
+    <script>
+        var clipboard = new ClipboardJS('.copy');
+    </script>
 {% endblock %}

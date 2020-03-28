@@ -24,6 +24,7 @@ class UploadController extends BaseController
         $files = $request->getUploadedFiles();
         /** @var UploadedFileInterface $file */
         foreach ($files as $file) {
+            $error = $file->getError();
             /** @var FileMapper $fileMapper */
             $fileMapper = $this->container->get(FileMapper::class);
             try {
