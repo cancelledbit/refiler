@@ -15,10 +15,10 @@
             {% else %}
             maxFiles: 10,
             {% endif %}
-            maxFilesize: 128,
+            maxFilesize: 800,
             method: 'post',
             addRemoveLinks: true,
-            acceptedFiles: "image/*,.pdf,.psd,.iso,.doc,.docx,.rar,.zip",
+            acceptedFiles: "image/*,.dat,.pdf,.psd,.iso,.doc,.docx,.rar,.zip",
             init: function () {
                 this.on('queuecomplete', function (file, response) {
                     // window.location.replace('/');

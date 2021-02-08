@@ -40,4 +40,16 @@ class FileMapper extends MongoMapper
         $model->generateHref();
         return $model;
     }
+
+    public function getFileModelFromTelegram(array $file): FileModel {
+        /** @var FileModel $model */
+        $model = $this->createModel();
+        $model->author = $file['author'];
+        $model->_id = $model->getId();
+        $model->name = $file['name'];
+        $model->extension = $file['extension'];
+        $model->size = $file['size'];
+        $model->generateHref();
+        return $model;
+    }
 }

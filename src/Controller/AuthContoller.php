@@ -17,7 +17,7 @@ use Twig\Environment;
 
 class AuthContoller extends BaseController
 {
-    public function actLoginIndex(Request $request, Response $response) {
+    public function actLoginIndex(Request $request, Response $response): Response {
         if ($this->auth->isLoggedIn()){
             return $response->withStatus(302)->withHeader('location', '/');
         }
@@ -26,7 +26,7 @@ class AuthContoller extends BaseController
         return $response;
     }
 
-    public function actLogin(Request $request, Response $response) {
+    public function actLogin(Request $request, Response $response): Response {
         if ($this->auth->isLoggedIn()){
             return $response->withStatus(302)->withHeader('location', '/');
         }
@@ -51,7 +51,7 @@ class AuthContoller extends BaseController
         return $response->withStatus(302)->withHeader('location','/');;
     }
 
-    public function actRegisterIndex(Request $request, Response $response) {
+    public function actRegisterIndex(Request $request, Response $response): Response {
         if ($this->auth->isLoggedIn()){
             return $response->withStatus(302)->withHeader('location', '/');
         }
@@ -60,7 +60,7 @@ class AuthContoller extends BaseController
         return $response;
     }
 
-    public function actRegister(Request $request, Response $response) {
+    public function actRegister(Request $request, Response $response): Response {
         /** @var PropertyBag $body */
         $body = $request->getAttribute('bag');
         $username = $body->getProperty('username');
@@ -80,7 +80,7 @@ class AuthContoller extends BaseController
         return $response->withStatus(302)->withHeader('location','/thankyou');
     }
 
-    public function actLogOut(Request $request, Response $response) {
+    public function actLogOut(Request $request, Response $response): Response {
         try {
             $this->auth->logOutEverywhere();
             $this->auth->destroySession();
