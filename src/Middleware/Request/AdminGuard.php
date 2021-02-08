@@ -4,24 +4,17 @@
 namespace Refiler\Middleware\Request;
 
 
-use Delight\Auth\Auth;
+use Delight\Auth\Role;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
 
-class AuthGuard implements MiddlewareInterface
+class AdminGuard extends AuthGuard
 {
-    protected Auth $auth;
-    public function __construct(Auth $auth)
-    {
-        $this->auth = $auth;
-    }
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$this->auth->isLoggedIn()) {
+        if (!$this->auth->hasRole(Role::ADMIN)) {
             $response = new Response();
             return $response->withStatus(302)->withHeader('Location','/login');
         }

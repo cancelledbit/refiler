@@ -8,12 +8,8 @@ class PropertyBag
 {
     private array $properties;
 
-    public function __construct(?array $properties = [])
-    {
-        if ($properties === null) {
-            $properties = [];
-        }
-        $this->properties = $properties;
+    public function __construct(?array $properties = []) {
+        $this->properties = $properties ?? [];
     }
 
     public function getProperty(string $key, $default = null) {

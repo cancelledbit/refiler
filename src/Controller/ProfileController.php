@@ -16,7 +16,7 @@ use Refiler\Controller\Contract\BaseController;
 
 class ProfileController extends BaseController
 {
-    public function actIndex(Request $request, Response $response) {
+    public function actIndex(Request $request, Response $response): Response {
         $users = $this->container->get(UserMapper::class);
         $id = $this->auth->getUserId();
         $user = $users->find($id);
@@ -31,7 +31,7 @@ class ProfileController extends BaseController
         return $response;
     }
 
-    public function actUpdate(Request $request, Response $response) {
+    public function actUpdate(Request $request, Response $response): Response {
         $users = $this->container->get(UserMapper::class);
         /** @var PropertyBag $body */
         $body = $request->getAttribute('bag');
@@ -47,7 +47,7 @@ class ProfileController extends BaseController
         return $response->withStatus(302)->withHeader('location','/profile');
     }
 
-    private function getStats($user) {
+    private function getStats($user): array {
         $query = ['author' => (int)$user->id];
         $mapper = $this->container->get(FileMapper::class);
         $files = $mapper->findBy($query);
